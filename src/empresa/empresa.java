@@ -7,37 +7,61 @@ package empresa;
 
 import java.util.*;
 
-/**
- *
- * @author Estudiante
- */
-public class empresa {
-public String nombre;
-
-private HashMap<String,sucursal>suc;
-   public empresa(String ciudad) {
-        this.nombre =nombre;
-        this.suc=new HashMap<>();}
-   
-   
-public ArrayList<Empleado>listarTodosEmpleados(){
-       ArrayList<Empleado>empleados= new ArrayList<>();
-   for(sucursal s:this.suc.values()){
-       for()
-       { empleados.add(e);}}
-   return empleados;
-   }
-
-public boolean ingresarEmp (sucursal s){
-       if(this.emp.containsKey(s))
-           return false;
-       else{
-           this.emp.put(s.getCedula(),s);
-           return true;
-           
-       }
-       
-   }
-   
+public class Empresa {
     
+    private String nombre;
+    private TreeMap<String,Sucursal> suc;
+
+    public Empresa(String nombre) {
+        this.nombre = nombre;
+        this.suc = new TreeMap<>();
+    }
+
+    public String getNombre() {
+        return nombre;
+    }   
+    
+    public ArrayList<Empleado> listarTodosEmpleados(){
+        ArrayList<Empleado> empleados = new ArrayList<>();       
+        for (Sucursal e : this.suc.values()) {
+            empleados.addAll(e.listarTodosEmpleados());
+        }
+        return empleados;
+    }
+    
+    public boolean ingresarSuc(Sucursal s){
+        if (this.suc.containsKey(s.getCiudad())) {
+            return false;
+        }else{
+            this.suc.put(s.getCiudad(), s);
+            return true;
+        }
+    }
+    
+    public ArrayList<Empleado> listarEmpleadosMayores(){
+        ArrayList<Empleado> empleados = new ArrayList<>();       
+        for (Sucursal e : this.suc.values()) {
+            empleados.add(e.EmpleadoMayor());
+        }
+        return empleados;
+    }
+
+    public ArrayList<Sucursal> listarTodasSucursales(){
+        ArrayList<Sucursal> sucursales = new ArrayList<>();       
+        for (Sucursal e : this.suc.values()) {
+            sucursales.add(e);
+        }
+        return sucursales;
+    }
+    public Sucursal listarSucursalMayorEmpleados(){
+        Sucursal mayor = null;
+        for (Sucursal s: this.suc.values()){
+            if (mayor == null) mayor = s;
+            else{
+                if(s.getNumempleados() > mayor.getNumempleados())
+                    mayor=s;
+            }            
+        }
+        return mayor;
+    }
 }
